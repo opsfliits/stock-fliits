@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stock FLiiTS</title>
+<meta name="theme-color" content="#0A0A0A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Stock FLiiTS">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --rojo: #D60505; --negro: #0A0A0A; --crema: #F2F1EC; --gris: #6B6B6B; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: var(--crema); color: var(--negro); font-family: Inter, system-ui, sans-serif; }
+  header { background: var(--negro); color: #fff; padding: 16px; font-family: Unbounded, "Arial Black", sans-serif; font-weight: 800; font-size: 20px; }
+  header span { color: var(--rojo); }
+  header small { font-size: 11px; font-weight: 500; opacity: .7; margin-left: 6px; }
+  main { max-width: 440px; margin: 0 auto; padding: 48px 16px; text-align: center; }
+  h1 { font-family: Unbounded, "Arial Black", sans-serif; font-size: 24px; margin: 0 0 10px; }
+  p { color: var(--gris); font-size: 15px; line-height: 1.5; margin: 0 0 24px; }
+  .btn { display: block; width: 100%; padding: 18px; border-radius: 999px; background: var(--rojo); color: #fff;
+    font-family: Unbounded, "Arial Black", sans-serif; font-weight: 700; font-size: 15px; text-decoration: none; }
+  .btn:active { background: #A80404; }
+  .nota { font-size: 13px; margin-top: 28px; }
+  .aviso { background: #FBE3E3; color: #A80404; border-radius: 14px; padding: 12px 14px; font-size: 14px; margin-bottom: 20px; text-align: left; }
+</style>
+</head>
+<body>
+<header>FL<span>ii</span>TS<small>STOCK</small></header>
+<main>
+  <h1>Control de stock</h1>
+  <p>Entregas a riders, envíos, recepciones y cuadres de stock de tu oficina.</p>
+  <div id="aviso" class="aviso" hidden></div>
+  <a class="btn" id="entrar" href="#">Entrar con mi cuenta @fliits.com</a>
+  <p class="nota">Google te pedirá iniciar sesión con tu email de la empresa.<br>
+    Consejo: en el móvil, usa <b>Compartir &gt; Añadir a pantalla de inicio</b> para tenerla como una app.</p>
+</main>
+<script>
+  // URL de la aplicación web de Apps Script (Implementar > Gestionar implementaciones > URL que termina en /exec)
+  const URL_APP = 'https://script.google.com/a/macros/fliits.com/s/AKfycbwEG3Z7zx9hvLJKs1B--5-_WRsLTNXq4x9CvjzJatAUKjLK7lSm8ee39tg2dr9wOZWY/exec';
+
+  const btn = document.getElementById('entrar');
+  if (!/^https:\/\/script\.google\.com\/.+\/exec/.test(URL_APP)) {
+    const a = document.getElementById('aviso');
+    a.hidden = false;
+    a.textContent = 'Falta configurar la URL de la app en index.html (URL_APP).';
+    btn.style.opacity = .4;
+  } else {
+    btn.href = URL_APP;
+    // Si se abre desde el icono de la pantalla de inicio, entra directo
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    if (standalone || new URLSearchParams(location.search).has('auto')) location.replace(URL_APP);
+  }
+</script>
+</body>
+</html>
